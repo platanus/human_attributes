@@ -6,9 +6,15 @@ module HumanAttributes
       end
     end
 
+    class InvalidType < Exception
+      def initialize
+        super("type needs to be one of: #{HumanAttributes::Config::TYPES.join(', ')}")
+      end
+    end
+
     class UniqueAttributeType < Exception
       def initialize
-        super("type need to be unique")
+        super("type needs to be unique")
       end
     end
 

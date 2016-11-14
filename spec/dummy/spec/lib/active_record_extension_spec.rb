@@ -20,6 +20,14 @@ RSpec.describe "ActiveRecordExtension" do
       end.to raise_error(HumanAttributes::Error::UniqueAttributeType)
     end
 
+    it "raises error passing multiple types" do
+      expect do
+        class Purchase < ActiveRecord::Base
+          humanize :amount, invalid: true
+        end
+      end.to raise_error(HumanAttributes::Error::InvalidType)
+    end
+
     it "raises error passing no type" do
       expect do
         class Purchase < ActiveRecord::Base
@@ -85,6 +93,70 @@ RSpec.describe "ActiveRecordExtension" do
         end
 
         it { expect(purchase.human_commission_amount).to eq("$1,060,000.03") }
+      end
+    end
+
+    context "with other numeric types" do
+      before { purchase.quantity = 20_000_000 }
+
+      context "with number type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, number: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("20 Million") }
+      end
+
+      context "with size type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, size: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("19.1 MB") }
+      end
+
+      context "with percentage type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, percentage: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("20000000.000%") }
+      end
+
+      context "with phone type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, phone: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("2-000-0000") }
+      end
+
+      context "with delimiter type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, delimiter: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("20,000,000") }
+      end
+
+      context "with precision type" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :quantity, precision: true
+          end
+        end
+
+        it { expect(purchase.human_quantity).to eq("20000000.000") }
       end
     end
   end

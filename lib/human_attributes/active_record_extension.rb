@@ -12,5 +12,4 @@ module HumanAttributes
   end
 end
 
-ActiveRecord::Base.send(:include, ActionView::Helpers::NumberHelper)
 ActiveRecord::Base.send(:include, HumanAttributes::ActiveRecordExtension)

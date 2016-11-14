@@ -43,7 +43,7 @@ class Purchase < ActiveRecord::Base
   enumerize :state, in: STATES, default: :pending
 
   def commission_amount
-    total * commission / 100.0
+    amount * commission / 100.0
   end
 end
 ```
@@ -52,15 +52,39 @@ You can execute, inside the class definition, `humanize` to generate **Human Rep
 
 ### Human Representations
 
-#### Currency
+#### Numeric
+
+With...
 
 ```ruby
-humanize :amount, currency: true
-humanize :commission, :commission_amount, currency: { unit: "R$", separator: ",", delimiter: "" }
+pruchase = Purchase.new
+purchase.quantity = 20_000_000
+purchase.amount = 20_000_000.5
+purchase.commission = 5.3
 ```
 
-> `currency` option can receive the same options used in [number_to_currency](http://api.rubyonrails.org/v4.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency) ActionView's helper.
+And having...
 
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :amount, currency: true
+  humanize :quantity, percentage: true
+  humanize :commission, :commission_amount, currency: { unit: "R$", separator: ",", delimiter: "" }
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_amount #=> "R$20 000 000,50"
+purchase.human_quantity #=> "20000000.000%"
+purchase.human_commission #=> "$5.30"
+purchase.human_commission_amount #=> $1,060,000.03
+```
+
+The available numeric types are:`currency`, `number`, `size`, `percentage`, `phone`, `delimiter` and `precision`.
+
+And the options to use with numeric types, are the same as in [NumberHelper](http://api.rubyonrails.org/v4.2/classes/ActionView/Helpers/NumberHelper.html)
 
 ## Testing
 

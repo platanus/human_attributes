@@ -20,7 +20,11 @@ module HumanAttributes
       size = options.keys.count
       raise HumanAttributes::Error::RequiredAttributeType.new if size.zero?
       raise HumanAttributes::Error::UniqueAttributeType.new if size > 1
-      options.keys.first
+      type = options.keys.first
+      if !HumanAttributes::Config::TYPES.include?(type)
+        raise HumanAttributes::Error::InvalidType.new
+      end
+      type
     end
 
     def get_options(type, options)
