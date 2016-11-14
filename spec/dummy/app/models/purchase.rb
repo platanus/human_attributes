@@ -20,8 +20,4 @@ class Purchase < ActiveRecord::Base
   STATES = %i{pending canceled finished}
 
   enumerize :state, in: STATES, default: :pending
-
-  def commission_amount
-    total * commission / 100.0
-  end
 end

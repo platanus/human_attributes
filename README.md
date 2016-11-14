@@ -14,15 +14,53 @@ gem "human_attributes"
 bundle install
 ```
 
-Then, run the installer:
-
-```bash
-rails generate human_attributes:install
-```
-
 ## Usage
 
-TODO
+Having the following model:
+
+```ruby
+# == Schema Information
+#
+# Table name: purchases
+#
+#  id          :integer          not null, primary key
+#  paid        :boolean
+#  commission  :decimal(, )
+#  quantity    :integer
+#  state       :string
+#  expired_at  :datetime
+#  amount      :decimal(, )
+#  description :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+class Purchase < ActiveRecord::Base
+  extend Enumerize
+
+  STATES = %i{pending canceled finished}
+
+  enumerize :state, in: STATES, default: :pending
+
+  def commission_amount
+    total * commission / 100.0
+  end
+end
+```
+
+You can execute, inside the class definition, `humanize` to generate **Human Representations** of Purchase's attributes and methods.
+
+### Human Representations
+
+#### Currency
+
+```ruby
+humanize :amount, currency: true
+humanize :commission, :commission_amount, currency: { unit: "R$", separator: ",", delimiter: "" }
+```
+
+> `currency` option can receive the same options used in [number_to_currency](http://api.rubyonrails.org/v4.2/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency) ActionView's helper.
+
 
 ## Testing
 

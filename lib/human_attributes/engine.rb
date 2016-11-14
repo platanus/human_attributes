@@ -8,8 +8,11 @@ module HumanAttributes
     end
 
     initializer "initialize" do
-      # Require here all your engine's classes.
-      require_relative "./example_class"
+      require_relative "./errors"
+      require_relative "./attribute_definition"
+      require_relative "./attributes_collection"
+      require_relative "./method_builder"
+      require_relative "./active_record_extension"
     end
   end
 end
