@@ -58,7 +58,7 @@ With...
 
 ```ruby
 pruchase = Purchase.new
-purchase.quantity = 20_000_000
+purchase.quantity = 20
 purchase.amount = 20_000_000.5
 purchase.commission = 5.3
 ```
@@ -67,7 +67,7 @@ And having...
 
 ```ruby
 class Purchase < ActiveRecord::Base
-  humanize :amount, currency: true
+  humanize :amount, currency: { default: 0 }
   humanize :quantity, percentage: true
   humanize :commission, :commission_amount, currency: { unit: "R$", separator: ",", delimiter: "" }
 end
@@ -76,10 +76,13 @@ end
 You can do...
 
 ```ruby
-purchase.human_amount #=> "R$20 000 000,50"
-purchase.human_quantity #=> "20000000.000%"
-purchase.human_commission #=> "$5.30"
-purchase.human_commission_amount #=> $1,060,000.03
+purchase.human_amount #=> "$20,000,000.50"
+purchase.human_quantity #=> "20.000%"
+purchase.human_commission #=> "R$5,30"
+purchase.human_commission_amount #=> R$1 060 000,03
+
+purchase.amount = nil
+purchase.human_amount #=> "$0" default value
 ```
 
 The available numeric types are:`currency`, `number`, `size`, `percentage`, `phone`, `delimiter` and `precision`.

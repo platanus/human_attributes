@@ -60,6 +60,18 @@ RSpec.describe "ActiveRecordExtension" do
         it { expect(purchase.human_amount).to eq("$20,000,000.50") }
       end
 
+      context "with default value" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :amount, currency: { default: 666 }
+          end
+
+          purchase.amount = nil
+        end
+
+        it { expect(purchase.human_amount).to eq("$666.00") }
+      end
+
       context "with valid options" do
         before do
           class Purchase < ActiveRecord::Base

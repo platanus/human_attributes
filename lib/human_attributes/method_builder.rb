@@ -9,7 +9,11 @@ module HumanAttributes
     end
 
     def build(definition)
-      action = Proc.new { |value| send(get_formatter(definition), value, definition.options) }
+      action = Proc.new do |value|
+        value = definition.default unless value
+        send(get_formatter(definition), value, definition.options)
+      end
+
       model_class.send(:define_method, definition.method_name) do
         action.call(send(definition.attribute))
       end
