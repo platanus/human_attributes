@@ -21,9 +21,7 @@ module HumanAttributes
       raise HumanAttributes::Error::RequiredAttributeType.new if size.zero?
       raise HumanAttributes::Error::UniqueAttributeType.new if size > 1
       type = options.keys.first
-      if !HumanAttributes::Config::TYPES.include?(type)
-        raise HumanAttributes::Error::InvalidType.new
-      end
+      raise HumanAttributes::Error::InvalidType.new if !HumanAttributes::Config.known_type?(type)
       type
     end
 

@@ -12,6 +12,8 @@ module HumanAttributes
       require_relative "./errors"
       require_relative "./attribute_definition"
       require_relative "./attributes_collection"
+      require_relative "./formatters/base"
+      require_relative "./formatters/numeric"
       require_relative "./method_builder"
       require_relative "./active_record_extension"
     end

@@ -1,5 +1,11 @@
 module HumanAttributes
   module Error
+    class NotImplemented < Exception
+      def initialize
+        super("formatter not implemented")
+      end
+    end
+
     class InvalidOptions < Exception
       def initialize
         super("humanize options needs to be a Hash")

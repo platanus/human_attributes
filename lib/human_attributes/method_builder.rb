@@ -1,7 +1,5 @@
 module HumanAttributes
   class MethodBuilder
-    include ActionView::Helpers::NumberHelper
-
     attr_reader :model_class
 
     def initialize(model_class)
@@ -9,11 +7,7 @@ module HumanAttributes
     end
 
     def build(definition)
-      action = Proc.new do |value|
-        value = definition.default unless value
-        send(get_formatter(definition), value, definition.options)
-      end
-
+      action = formatter_proc(definition)
       model_class.send(:define_method, definition.method_name) do
         action.call(send(definition.attribute))
       end
@@ -22,16 +16,14 @@ module HumanAttributes
 
     private
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    def get_formatter(definition)
-      case definition.type
-      when :currency then :number_to_currency
-      when :number then :number_to_human
-      when :size then :number_to_human_size
-      when :percentage then :number_to_percentage
-      when :phone then :number_to_phone
-      when :delimiter then :number_with_delimiter
-      when :precision then :number_with_precision
+    def formatter_class(type)
+      return HumanAttributes::Formatters::Numeric if HumanAttributes::Config.numeric_type?(type)
+    end
+
+    def formatter_proc(definition)
+      Proc.new do |value|
+        value = definition.default unless value
+        formatter_class(definition.type).new(definition, value).apply
       end
     end
   end
