@@ -13,7 +13,6 @@ module HumanAttributes
       model_class.send(:define_method, definition.method_name) do
         action.call(send(definition.attribute))
       end
-      nil
     end
 
     private

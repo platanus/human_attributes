@@ -1,6 +1,8 @@
 module HumanAttributes
   module Formatters
     class Base
+      include HumanAttributes::Config
+
       attr_reader :definition, :value
 
       def initialize(definition, value)
@@ -9,7 +11,7 @@ module HumanAttributes
       end
 
       def apply
-        raise HumanAttributes::Error::NotImplemented.new
+        raise_error('NotImplemented')
       end
     end
   end

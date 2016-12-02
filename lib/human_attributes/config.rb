@@ -14,5 +14,9 @@ module HumanAttributes
     def date_type?(type)
       type == :date
     end
+
+    def raise_error(error_class)
+      raise "HumanAttributes::Error::#{error_class}".constantize.new
+    end
   end
 end
