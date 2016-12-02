@@ -1,5 +1,7 @@
 module HumanAttributes
   class MethodBuilder
+    include HumanAttributes::Config
+
     attr_reader :model_class
 
     def initialize(model_class)
@@ -17,8 +19,8 @@ module HumanAttributes
     private
 
     def formatter_class(type)
-      return HumanAttributes::Formatters::Numeric if HumanAttributes::Config.numeric_type?(type)
-      return HumanAttributes::Formatters::Date if HumanAttributes::Config.date_type?(type)
+      return HumanAttributes::Formatters::Numeric if numeric_type?(type)
+      return HumanAttributes::Formatters::Date if date_type?(type)
     end
 
     def formatter_proc(definition)

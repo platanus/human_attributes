@@ -3,15 +3,15 @@ module HumanAttributes
     NUMBER_TYPES = %i{currency number size percentage phone delimiter precision}
     TYPES = NUMBER_TYPES + [:date]
 
-    def self.numeric_type?(type)
+    def numeric_type?(type)
       NUMBER_TYPES.include?(type)
     end
 
-    def self.known_type?(type)
+    def known_type?(type)
       TYPES.include?(type)
     end
 
-    def self.date_type?(type)
+    def date_type?(type)
       type == :date
     end
   end

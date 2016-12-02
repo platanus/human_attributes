@@ -1,5 +1,7 @@
 module HumanAttributes
   class AttributesCollection
+    include HumanAttributes::Config
+
     def initialize(attributes, options)
       @attributes = []
       raise HumanAttributes::Error::InvalidOptions.new unless options.is_a?(Hash)
@@ -21,7 +23,7 @@ module HumanAttributes
       raise HumanAttributes::Error::RequiredAttributeType.new if size.zero?
       raise HumanAttributes::Error::UniqueAttributeType.new if size > 1
       type = options.keys.first
-      raise HumanAttributes::Error::InvalidType.new unless HumanAttributes::Config.known_type?(type)
+      raise HumanAttributes::Error::InvalidType.new unless known_type?(type)
       type
     end
 
