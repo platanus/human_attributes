@@ -118,7 +118,7 @@ purchase.human_created_at #=> "Mon, 04 Jun 1984 09:20:00 +0000"
 purchase.human_updated_at #=> "1984"
 ```
 
-The options you can use with the date type are the same as in [Rails guides]http://guides.rubyonrails.org/v4.2/i18n.html#adding-date-time-formats
+The options you can use with the date type are the same as in [Rails guides](http://guides.rubyonrails.org/v4.2/i18n.html#adding-date-time-formats)
 
 ## Testing
 
