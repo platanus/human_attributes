@@ -89,6 +89,37 @@ The available numeric types are:`currency`, `number`, `size`, `percentage`, `pho
 
 And the options to use with numeric types, are the same as in [NumberHelper](http://api.rubyonrails.org/v4.2/classes/ActionView/Helpers/NumberHelper.html)
 
+#### Date
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.expired_at = "04/06/1984 09:20:00"
+purchase.created_at = "04/06/1984 09:20:00"
+purchase.updated_at = "04/06/1984 09:20:00"
+```
+
+And having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :expired_at, date: { format: :short }
+  humanize :created_at, date: true
+  humanize :updated_at, , date: { format: "%Y" }
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_expired_at #=> "04 Jun 09:20"
+purchase.human_created_at #=> "Mon, 04 Jun 1984 09:20:00 +0000"
+purchase.human_updated_at #=> "1984"
+```
+
+The options you can use with the date type are the same as in [Rails guides]http://guides.rubyonrails.org/v4.2/i18n.html#adding-date-time-formats
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

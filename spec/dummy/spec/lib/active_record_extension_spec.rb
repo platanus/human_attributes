@@ -171,5 +171,49 @@ RSpec.describe "ActiveRecordExtension" do
         it { expect(purchase.human_quantity).to eq("20000000.000") }
       end
     end
+
+    context "with date format" do
+      before { purchase.expired_at = "04/06/1984 09:20:00" }
+
+      context "passing custom format" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :expired_at, date: { format: "%Y" }
+          end
+        end
+
+        it { expect(purchase.human_expired_at).to eq("1984") }
+      end
+
+      context "without options" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :expired_at, date: true
+          end
+        end
+
+        it { expect(purchase.human_expired_at).to eq("Mon, 04 Jun 1984 09:20:00 +0000") }
+      end
+
+      context "with short format" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :expired_at, date: { format: :short }
+          end
+        end
+
+        it { expect(purchase.human_expired_at).to eq("04 Jun 09:20") }
+      end
+
+      context "with long format" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :expired_at, date: { format: :long }
+          end
+        end
+
+        it { expect(purchase.human_expired_at).to eq("June 04, 1984 09:20") }
+      end
+    end
   end
 end
