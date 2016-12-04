@@ -18,6 +18,12 @@ module HumanAttributes
       end
     end
 
+    class MissingFormatterOption < Exception
+      def initialize
+        super("custom type needs formatter option with a proc")
+      end
+    end
+
     class InvalidType < Exception
       def initialize
         types = HumanAttributes::Config::TYPES.map { |t| t[:name] }

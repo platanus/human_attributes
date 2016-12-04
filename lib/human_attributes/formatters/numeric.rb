@@ -3,7 +3,7 @@ module HumanAttributes
     class Numeric < Base
       include ActionView::Helpers::NumberHelper
 
-      def apply(value)
+      def apply(_instance, value)
         send(formatter_by_type(type), value, options)
       end
     end

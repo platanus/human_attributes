@@ -184,6 +184,28 @@ purchase.state = :finished
 purchase.human_state #=> "F."
 ```
 
+#### Custom Formatter
+
+With...
+
+```ruby
+pruchase = Purchase.create!
+```
+
+And having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :id, custom: { formatter: ->(purchase, value) { "Purchase: #{value}-#{purchase.id}" } }
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_id #=> "Purchase: 1-1"
+```
+
 ### Common Options
 
 #### Default

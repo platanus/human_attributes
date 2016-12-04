@@ -222,6 +222,29 @@ RSpec.describe "ActiveRecordExtension" do
       end
     end
 
+    context "with custom formatter" do
+      it "raises error with missing formatter option" do
+        expect do
+          class Purchase < ActiveRecord::Base
+            humanize :id, custom: true
+          end
+        end.to raise_error(HumanAttributes::Error::MissingFormatterOption)
+      end
+
+      context "passing valid formatter" do
+        before do
+          purchase.id = 1
+          purchase.paid = true
+
+          class Purchase < ActiveRecord::Base
+            humanize :id, custom: { formatter: ->(purchase, value) { "#{value}:#{purchase.paid}" } }
+          end
+        end
+
+        it { expect(purchase.human_id).to eq("1:true") }
+      end
+    end
+
     context "with Enumerize attribute" do
       context "passing valid value" do
         before do

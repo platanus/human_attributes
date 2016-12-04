@@ -9,18 +9,9 @@ module HumanAttributes
     end
 
     def build(formatter)
-      action = formatter_proc(formatter)
       model_class.send(:define_method, formatter.method_name) do
-        action.call(send(formatter.attribute))
-      end
-    end
-
-    private
-
-    def formatter_proc(formatter)
-      Proc.new do |value|
-        value = formatter.default unless value
-        formatter.apply(value)
+        value = send(formatter.attribute) || formatter.default
+        formatter.apply(self, value)
       end
     end
   end

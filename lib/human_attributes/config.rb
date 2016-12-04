@@ -57,6 +57,11 @@ module HumanAttributes
         name: :enumerize,
         category: :enumerize,
         suffix: :to_human_enum
+      },
+      {
+        name: :custom,
+        category: :custom,
+        suffix: :to_custom_value
       }
     ]
 
