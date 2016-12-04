@@ -1,7 +1,7 @@
 module HumanAttributes
   module Config
     NUMBER_TYPES = %i{currency number size percentage phone delimiter precision}
-    TYPES = NUMBER_TYPES + [:date, :boolean]
+    TYPES = NUMBER_TYPES + [:date, :boolean, :enumerize]
 
     def numeric_type?(type)
       NUMBER_TYPES.include?(type)
@@ -17,6 +17,10 @@ module HumanAttributes
 
     def boolean_type?(type)
       type == :boolean
+    end
+
+    def enumerize_type?(type)
+      type == :enumerize
     end
 
     def raise_error(error_class)

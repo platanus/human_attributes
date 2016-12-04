@@ -21,6 +21,7 @@ module HumanAttributes
       return HumanAttributes::Formatters::Numeric if numeric_type?(type)
       return HumanAttributes::Formatters::Date if date_type?(type)
       return HumanAttributes::Formatters::Boolean if boolean_type?(type)
+      return HumanAttributes::Formatters::Enumerize if enumerize_type?(type)
     end
 
     def formatter_proc(definition)

@@ -198,6 +198,37 @@ RSpec.describe "ActiveRecordExtension" do
       end
     end
 
+    context "with Enumerize attribute" do
+      context "passing valid value" do
+        before do
+          class Purchase < ActiveRecord::Base
+            extend Enumerize
+            enumerize :state, in: %i{canceled finished}
+            humanize :state, enumerize: true
+          end
+
+          purchase.state = :finished
+        end
+
+        it { expect(purchase.human_state).to eq("Finished") }
+      end
+
+      context "passing no enum value" do
+        before do
+          class Purchase < ActiveRecord::Base
+            extend Enumerize
+            humanize :quantity, enumerize: true
+          end
+        end
+
+        it do
+          expect { purchase.human_quantity }.to(
+            raise_error(HumanAttributes::Error::NotEnumerizeAttribute)
+          )
+        end
+      end
+    end
+
     context "with date format" do
       before { purchase.expired_at = "04/06/1984 09:20:00" }
 

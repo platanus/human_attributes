@@ -12,6 +12,12 @@ module HumanAttributes
       end
     end
 
+    class NotEnumerizeAttribute < Exception
+      def initialize
+        super("needs to be an Enumerize::Value object")
+      end
+    end
+
     class InvalidType < Exception
       def initialize
         super("type needs to be one of: #{HumanAttributes::Config::TYPES.join(', ')}")

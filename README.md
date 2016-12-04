@@ -154,6 +154,42 @@ purchase.paid = false
 purchase.human_paid #=> "No"
 ```
 
+#### Enumerize
+
+Installing [Enumerize](https://github.com/brainspec/enumerize) gem with...
+
+```ruby
+pruchase = Purchase.new
+purchase.state = :finished
+```
+
+And `/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  enumerize:
+    purchase:
+      state:
+        pending: "P."
+        finished: "F."
+        canceled: "C."
+```
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :state, enumerize: true
+end
+```
+
+You can do...
+
+```ruby
+purchase.state = :finished
+purchase.human_state #=> "F."
+```
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:
