@@ -3,17 +3,20 @@ module HumanAttributes
     class Base
       include HumanAttributes::Config
 
-      attr_reader :attribute, :type, :options, :default
+      attr_reader :attribute, :type, :options, :default, :suffix
 
       def initialize(attribute, type, options)
         @attribute = attribute.to_sym
         @type = type.to_sym
         @default = options.delete(:default)
+        @suffix = options.delete(:suffix)
         @options = options
       end
 
       def method_name
-        "human_#{attribute}"
+        return "human_#{attribute}" if suffix.blank?
+        return "#{attribute}_#{suffix_by_type(type)}" if suffix == true
+        "#{attribute}_#{suffix}"
       end
 
       def apply(_value)

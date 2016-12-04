@@ -59,7 +59,6 @@ With...
 ```ruby
 pruchase = Purchase.new
 purchase.quantity = 20
-purchase.amount = 20_000_000.5
 purchase.commission = 5.3
 ```
 
@@ -67,7 +66,6 @@ And having...
 
 ```ruby
 class Purchase < ActiveRecord::Base
-  humanize :amount, currency: { default: 0 }
   humanize :quantity, percentage: true
   humanize :commission, :commission_amount, currency: { unit: "R$", separator: ",", delimiter: "" }
 end
@@ -76,13 +74,9 @@ end
 You can do...
 
 ```ruby
-purchase.human_amount #=> "$20,000,000.50"
 purchase.human_quantity #=> "20.000%"
 purchase.human_commission #=> "R$5,30"
 purchase.human_commission_amount #=> R$1 060 000,03
-
-purchase.amount = nil
-purchase.human_amount #=> "$0" default value
 ```
 
 The available numeric types are:`currency`, `number`, `size`, `percentage`, `phone`, `delimiter` and `precision`.
@@ -188,6 +182,57 @@ You can do...
 ```ruby
 purchase.state = :finished
 purchase.human_state #=> "F."
+```
+
+### Common Options
+
+#### Default
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.amount = nil
+```
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :amount, currency: { default: 0 }
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_amount #=> "$0"
+```
+
+#### Suffix
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.paid = true
+purchase.amount = 20
+```
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :paid, boolean: { suffix: "with_custom_suffix" }
+  humanize :amount, currency: { suffix: true }
+end
+```
+
+You can do...
+
+```ruby
+purchase.paid_with_custom_suffix #=> "Yes"
+purchase.amount_to_currency #=> "$20" # default suffix
 ```
 
 ## Testing

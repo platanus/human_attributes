@@ -44,6 +44,42 @@ RSpec.describe "ActiveRecordExtension" do
       end.to raise_error(HumanAttributes::Error::InvalidAttributeOptions)
     end
 
+    context "with default value" do
+      before do
+        class Purchase < ActiveRecord::Base
+          humanize :amount, currency: { default: 666 }
+        end
+
+        purchase.amount = nil
+      end
+
+      it { expect(purchase.human_amount).to eq("$666.00") }
+    end
+
+    context "with suffix" do
+      before { purchase.amount = 20_000_000.5 }
+
+      context "with default suffix" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :amount, currency: { suffix: true }
+          end
+        end
+
+        it { expect(purchase.amount_to_currency).to eq("$20,000,000.50") }
+      end
+
+      context "with custom suffix" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :amount, currency: { suffix: "to_cur" }
+          end
+        end
+
+        it { expect(purchase.amount_to_cur).to eq("$20,000,000.50") }
+      end
+    end
+
     context "with currency type" do
       before do
         purchase.amount = 20_000_000.5
@@ -58,18 +94,6 @@ RSpec.describe "ActiveRecordExtension" do
         end
 
         it { expect(purchase.human_amount).to eq("$20,000,000.50") }
-      end
-
-      context "with default value" do
-        before do
-          class Purchase < ActiveRecord::Base
-            humanize :amount, currency: { default: 666 }
-          end
-
-          purchase.amount = nil
-        end
-
-        it { expect(purchase.human_amount).to eq("$666.00") }
       end
 
       context "with valid options" do
