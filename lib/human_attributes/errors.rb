@@ -6,7 +6,7 @@ module HumanAttributes
       end
     end
 
-    class InvalidOptions < Exception
+    class InvalidHumanizeConfig < Exception
       def initialize
         super("humanize options needs to be a Hash")
       end
@@ -28,12 +28,6 @@ module HumanAttributes
       def initialize
         types = HumanAttributes::Config::TYPES.map { |t| t[:name] }
         super("type needs to be one of: #{types.join(', ')}")
-      end
-    end
-
-    class UniqueAttributeType < Exception
-      def initialize
-        super("type needs to be unique")
       end
     end
 

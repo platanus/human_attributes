@@ -2,17 +2,24 @@ module HumanAttributes
   class FormattersCollection
     include HumanAttributes::Config
 
-    def initialize(attributes, options)
-      raise_error('InvalidOptions') unless options.is_a?(Hash)
+    def initialize(attributes, config)
+      raise_error('InvalidHumanizeConfig') unless config.is_a?(Hash)
       @attributes = attributes
-      @type = get_type(options)
-      @options = get_options(@type, options)
+      @config = config
     end
 
     def get
-      @attributes.map do |attribute|
-        formatter_class(@type).new(attribute, @type, @options)
-      end.flatten
+      formatters = []
+
+      get_types(@config).each do |type|
+        raise_error('InvalidType') unless known_type?(type)
+        options = get_options(@config[type])
+        formatters << @attributes.map do |attribute|
+          formatter_class(type).new(attribute, type, options)
+        end
+      end
+
+      formatters.flatten
     end
 
     private
@@ -22,20 +29,16 @@ module HumanAttributes
       "HumanAttributes::Formatters::#{category.to_s.classify}".constantize
     end
 
-    def get_type(options)
+    def get_types(options)
       size = options.keys.count
       raise_error('RequiredAttributeType') if size.zero?
-      raise_error('UniqueAttributeType') if size > 1
-      type = options.keys.first
-      raise_error('InvalidType') unless known_type?(type)
-      type
+      options.keys
     end
 
-    def get_options(type, options)
-      opts = options[type]
-      return {} if opts == true
-      raise_error('InvalidAttributeOptions') unless opts.is_a?(Hash)
-      opts
+    def get_options(options)
+      return {} if options == true
+      raise_error('InvalidAttributeOptions') unless options.is_a?(Hash)
+      options
     end
   end
 end

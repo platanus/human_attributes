@@ -9,15 +9,7 @@ RSpec.describe "ActiveRecordExtension" do
         class Purchase < ActiveRecord::Base
           humanize :amount, "invalid"
         end
-      end.to raise_error(HumanAttributes::Error::InvalidOptions)
-    end
-
-    it "raises error passing multiple types" do
-      expect do
-        class Purchase < ActiveRecord::Base
-          humanize :amount, currency: true, percentage: true
-        end
-      end.to raise_error(HumanAttributes::Error::UniqueAttributeType)
+      end.to raise_error(HumanAttributes::Error::InvalidHumanizeConfig)
     end
 
     it "raises error passing multiple types" do
@@ -54,6 +46,19 @@ RSpec.describe "ActiveRecordExtension" do
       end
 
       it { expect(purchase.human_amount).to eq("$666.00") }
+    end
+
+    context "with default value" do
+      before do
+        class Purchase < ActiveRecord::Base
+          humanize :amount, percentage: { suffix: true }, currency: { suffix: true }
+        end
+
+        purchase.amount = 20
+      end
+
+      it { expect(purchase.amount_to_currency).to eq("$20.00") }
+      it { expect(purchase.amount_to_percentage).to eq("20.000%") }
     end
 
     context "with suffix" do

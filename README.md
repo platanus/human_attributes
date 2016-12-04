@@ -257,6 +257,32 @@ purchase.paid_with_custom_suffix #=> "Yes"
 purchase.amount_to_currency #=> "$20" # default suffix
 ```
 
+### Multiple Formatters
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.amount = 20
+```
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :amount, currency: { suffix: true }, percentage: { suffix: true }
+end
+```
+
+You can do...
+
+```ruby
+purchase.amount_to_currency #=> ""
+purchase.amount_to_percentage #=> ""
+```
+
+> Remember to use `:suffix` option to avoid name collisions
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:
