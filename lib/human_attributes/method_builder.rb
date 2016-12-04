@@ -8,26 +8,19 @@ module HumanAttributes
       @model_class = model_class
     end
 
-    def build(definition)
-      action = formatter_proc(definition)
-      model_class.send(:define_method, definition.method_name) do
-        action.call(send(definition.attribute))
+    def build(formatter)
+      action = formatter_proc(formatter)
+      model_class.send(:define_method, formatter.method_name) do
+        action.call(send(formatter.attribute))
       end
     end
 
     private
 
-    def formatter_class(type)
-      return HumanAttributes::Formatters::Numeric if numeric_type?(type)
-      return HumanAttributes::Formatters::Date if date_type?(type)
-      return HumanAttributes::Formatters::Boolean if boolean_type?(type)
-      return HumanAttributes::Formatters::Enumerize if enumerize_type?(type)
-    end
-
-    def formatter_proc(definition)
+    def formatter_proc(formatter)
       Proc.new do |value|
-        value = definition.default unless value
-        formatter_class(definition.type).new(definition, value).apply
+        value = formatter.default unless value
+        formatter.apply(value)
       end
     end
   end

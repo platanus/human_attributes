@@ -1,26 +1,32 @@
 module HumanAttributes
   module Config
-    NUMBER_TYPES = %i{currency number size percentage phone delimiter precision}
-    TYPES = NUMBER_TYPES + [:date, :boolean, :enumerize]
+    TYPES = [
+      { name: :currency, category: :numeric, formatter: :number_to_currency },
+      { name: :number, category: :numeric, formatter: :number_to_human },
+      { name: :size, category: :numeric, formatter: :number_to_human_size },
+      { name: :percentage, category: :numeric, formatter: :number_to_percentage },
+      { name: :phone, category: :numeric, formatter: :number_to_phone },
+      { name: :delimiter, category: :numeric, formatter: :number_with_delimiter },
+      { name: :precision, category: :numeric, formatter: :number_with_precision },
+      { name: :date, category: :date },
+      { name: :boolean, category: :boolean },
+      { name: :enumerize, category: :enumerize }
+    ]
 
-    def numeric_type?(type)
-      NUMBER_TYPES.include?(type)
+    def category_by_type(type)
+      type_config(type)[:category]
+    end
+
+    def formatter_by_type(type)
+      type_config(type)[:formatter]
     end
 
     def known_type?(type)
-      TYPES.include?(type)
+      !!type_config(type)
     end
 
-    def date_type?(type)
-      type == :date
-    end
-
-    def boolean_type?(type)
-      type == :boolean
-    end
-
-    def enumerize_type?(type)
-      type == :enumerize
+    def type_config(type)
+      TYPES.select { |t| t[:name] == type }.first
     end
 
     def raise_error(error_class)

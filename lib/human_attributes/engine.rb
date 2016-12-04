@@ -10,8 +10,7 @@ module HumanAttributes
     initializer "initialize" do
       require_relative "./config"
       require_relative "./errors"
-      require_relative "./attribute_definition"
-      require_relative "./attributes_collection"
+      require_relative "./formatters_collection"
       require_relative "./formatters/base"
       require_relative "./formatters/numeric"
       require_relative "./formatters/date"

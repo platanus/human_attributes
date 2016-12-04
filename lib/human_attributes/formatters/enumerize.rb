@@ -1,7 +1,7 @@
 module HumanAttributes
   module Formatters
     class Enumerize < Base
-      def apply
+      def apply(value)
         return unless value
         raise_error('NotEnumerizeAttribute') unless value.class.to_s == "Enumerize::Value"
         value.text

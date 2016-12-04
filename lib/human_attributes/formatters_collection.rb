@@ -1,22 +1,26 @@
 module HumanAttributes
-  class AttributesCollection
+  class FormattersCollection
     include HumanAttributes::Config
 
     def initialize(attributes, options)
-      @attributes = []
       raise_error('InvalidOptions') unless options.is_a?(Hash)
-      type = get_type(options)
-      opts = get_options(type, options)
-      @attributes = attributes.map do |attribute|
-        HumanAttributes::AttributeDefinition.new(attribute, type, opts)
-      end.flatten
+      @attributes = attributes
+      @type = get_type(options)
+      @options = get_options(@type, options)
     end
 
     def get
-      @attributes
+      @attributes.map do |attribute|
+        formatter_class(@type).new(attribute, @type, @options)
+      end.flatten
     end
 
     private
+
+    def formatter_class(type)
+      category = category_by_type(type)
+      "HumanAttributes::Formatters::#{category.to_s.classify}".constantize
+    end
 
     def get_type(options)
       size = options.keys.count

@@ -3,18 +3,8 @@ module HumanAttributes
     class Numeric < Base
       include ActionView::Helpers::NumberHelper
 
-      FORMATETERS = {
-        currency: :number_to_currency,
-        number: :number_to_human,
-        size: :number_to_human_size,
-        percentage: :number_to_percentage,
-        phone: :number_to_phone,
-        delimiter: :number_with_delimiter,
-        precision: :number_with_precision
-      }
-
-      def apply
-        send(FORMATETERS[definition.type], value, definition.options)
+      def apply(value)
+        send(formatter_by_type(type), value, options)
       end
     end
   end

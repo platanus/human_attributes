@@ -1,7 +1,7 @@
 module HumanAttributes
   module Formatters
     class Boolean < Base
-      def apply
+      def apply(value)
         key = !!value ? "positive" : "negative"
         I18n.t("boolean.#{key}")
       end

@@ -1,8 +1,8 @@
 module HumanAttributes
   module Formatters
     class Date < Base
-      def apply
-        I18n.l(value, definition.options)
+      def apply(value)
+        I18n.l(value, options)
       end
     end
   end

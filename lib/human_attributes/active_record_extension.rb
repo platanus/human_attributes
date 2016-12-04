@@ -4,9 +4,9 @@ module HumanAttributes
 
     class_methods do
       def humanize(*attrs, options)
-        definitions = HumanAttributes::AttributesCollection.new(attrs, options).get
+        formatters = HumanAttributes::FormattersCollection.new(attrs, options).get
         @builder ||= HumanAttributes::MethodBuilder.new(self)
-        definitions.each { |definition| @builder.build(definition) }
+        formatters.each { |formatter| @builder.build(formatter) }
       end
     end
   end

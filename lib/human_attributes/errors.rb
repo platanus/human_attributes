@@ -20,7 +20,8 @@ module HumanAttributes
 
     class InvalidType < Exception
       def initialize
-        super("type needs to be one of: #{HumanAttributes::Config::TYPES.join(', ')}")
+        types = HumanAttributes::Config::TYPES.map { |t| t[:name] }
+        super("type needs to be one of: #{types.join(', ')}")
       end
     end
 
