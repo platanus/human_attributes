@@ -20,6 +20,7 @@ module HumanAttributes
     def formatter_class(type)
       return HumanAttributes::Formatters::Numeric if numeric_type?(type)
       return HumanAttributes::Formatters::Date if date_type?(type)
+      return HumanAttributes::Formatters::Boolean if boolean_type?(type)
     end
 
     def formatter_proc(definition)

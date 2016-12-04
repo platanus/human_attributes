@@ -172,6 +172,32 @@ RSpec.describe "ActiveRecordExtension" do
       end
     end
 
+    context "with boolean format" do
+      before { purchase.paid = true }
+
+      context "passing true value" do
+        before do
+          class Purchase < ActiveRecord::Base
+            humanize :paid, boolean: true
+          end
+        end
+
+        it { expect(purchase.human_paid).to eq("Yes") }
+      end
+
+      context "passing false value" do
+        before do
+          purchase.paid = false
+
+          class Purchase < ActiveRecord::Base
+            humanize :paid, boolean: true
+          end
+        end
+
+        it { expect(purchase.human_paid).to eq("No") }
+      end
+    end
+
     context "with date format" do
       before { purchase.expired_at = "04/06/1984 09:20:00" }
 

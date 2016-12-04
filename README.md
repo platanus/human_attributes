@@ -120,6 +120,40 @@ purchase.human_updated_at #=> "1984"
 
 The options you can use with the date type are the same as in [Rails guides](http://guides.rubyonrails.org/v4.2/i18n.html#adding-date-time-formats)
 
+#### Boolean
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.paid = true
+```
+
+And `/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  boolean:
+    positive: "Yes"
+    negative: "No"
+```
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :paid, boolean: true
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_paid #=> "Yes"
+purchase.paid = false
+purchase.human_paid #=> "No"
+```
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

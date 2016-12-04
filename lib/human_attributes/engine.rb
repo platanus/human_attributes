@@ -15,6 +15,7 @@ module HumanAttributes
       require_relative "./formatters/base"
       require_relative "./formatters/numeric"
       require_relative "./formatters/date"
+      require_relative "./formatters/boolean"
       require_relative "./method_builder"
       require_relative "./active_record_extension"
     end
