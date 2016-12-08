@@ -1,5 +1,5 @@
 module HumanAttributes
-  class FormattersCollection
+  class FormattersBuilder
     include HumanAttributes::Config
 
     def initialize(attributes, config)

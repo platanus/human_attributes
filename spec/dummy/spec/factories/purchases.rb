@@ -16,12 +16,12 @@
 
 FactoryGirl.define do
   factory :purchase do
-    paid false
-    commission "9.99"
+    paid true
+    commission 1000.99
     quantity 1
-    state "MyString"
-    expired_at "2016-11-13 00:23:08"
-    amount "9.99"
-    description "MyText"
+    state :pending
+    expired_at "1984-04-06 09:00"
+    amount 2_000_000.95
+    description "Just a text"
   end
 end
