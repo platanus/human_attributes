@@ -283,6 +283,35 @@ purchase.amount_to_percentage #=> ""
 
 > Remember to use `:suffix` option to avoid name collisions
 
+### Humanize Active Record Attributes
+
+You can generate human representations for all the atributes of your ActiveRecord model like this:
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize_attributes
+end
+```
+
+The `humanize_attributes` method will infer from the attribute's data type which formatter to choose.
+With our `Purchase` model we will get:
+
+```ruby
+purchase.human_id
+purchase.human_paid
+purchase.human_quantity
+purchase.human_commission
+purchase.human_amount
+purchase.human_expired_at
+purchase.expired_at_to_short_date
+purchase.human_created_at
+purchase.created_at_to_short_date
+purchase.human_updated_at
+purchase.updated_at_to_short_date
+```
+
+> You can pass to `humanize_attributes` the option `only: [:attr1, :attr2]` to humanize specific attributes. The `except` option works in similar way.
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

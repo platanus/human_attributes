@@ -6,17 +6,29 @@ module HumanAttributes
       def humanize(*attrs, options)
         formatters = HumanAttributes::FormattersBuilder.new(attrs, options).get
         @builder ||= HumanAttributes::MethodBuilder.new(self)
-        formatters.each { |formatter| @builder.build(formatter) }
+        @humanize_methods ||= []
+        formatters.each { |formatter| @humanize_methods << @builder.build(formatter) }
       end
 
-      def humanize_attributes
+      def humanize_attributes(options = {})
+        included_attrs = options.fetch(:only, nil)
+        excluded_attrs = options.fetch(:except, nil)
         columns.each do |col|
           next if col.name.ends_with?("_id")
+          next if included_attrs && !included_attrs.include?(col.name.to_sym)
+          next if excluded_attrs && excluded_attrs.include?(col.name.to_sym)
           humanize_from_type(col)
         end
       end
 
       private
+
+      def humanize_methods
+        return [] unless @humanize_methods
+        @humanize_methods.uniq!
+        @humanize_methods.reject! { |method| !method_defined?(method) }
+        @humanize_methods
+      end
 
       def humanize_from_type(col)
         if col.name == "id"

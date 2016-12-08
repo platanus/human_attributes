@@ -13,6 +13,8 @@ module HumanAttributes
         value = send(formatter.attribute) || formatter.default
         formatter.apply(self, value)
       end
+
+      formatter.method_name
     end
   end
 end
