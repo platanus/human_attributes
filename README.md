@@ -7,6 +7,7 @@ It's a Gem to convert ActiveRecord models' attributes and methods to human reada
 - [Formatters](#formatters)
   - [Numeric](#numeric)
   - [Date](#date)
+  - [DateTime](#datetime)
   - [Boolean](#boolean)
   - [Enumerize](#enumerize)
   - [Custom Formatter](#custom-formatter)
@@ -109,13 +110,62 @@ purchase.created_at = "04/06/1984 09:20:00"
 purchase.updated_at = "04/06/1984 09:20:00"
 ```
 
+And `/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+```
+
 And having...
 
 ```ruby
 class Purchase < ActiveRecord::Base
   humanize :expired_at, date: { format: :short }
   humanize :created_at, date: true
-  humanize :updated_at, , date: { format: "%Y" }
+  humanize :updated_at, date: { format: "%Y" }
+end
+```
+
+You can do...
+
+```ruby
+purchase.human_expired_at #=> "04 Jun"
+purchase.human_created_at #=> "1984-06-04"
+purchase.human_updated_at #=> "1984"
+```
+
+#### DateTime
+
+With...
+
+```ruby
+pruchase = Purchase.new
+purchase.expired_at = "04/06/1984 09:20:00"
+purchase.created_at = "04/06/1984 09:20:00"
+purchase.updated_at = "04/06/1984 09:20:00"
+```
+
+And `/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+```
+
+And having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  humanize :expired_at, datetime: { format: :short }
+  humanize :created_at, datetime: true
+  humanize :updated_at, datetime: { format: "%Y" }
 end
 ```
 
@@ -126,8 +176,6 @@ purchase.human_expired_at #=> "04 Jun 09:20"
 purchase.human_created_at #=> "Mon, 04 Jun 1984 09:20:00 +0000"
 purchase.human_updated_at #=> "1984"
 ```
-
-The options you can use with the date type are the same as in [Rails guides](http://guides.rubyonrails.org/v4.2/i18n.html#adding-date-time-formats)
 
 #### Boolean
 
@@ -316,17 +364,27 @@ The `humanize_attributes` method will infer from the attribute's data type which
 With our `Purchase` model we will get:
 
 ```ruby
-purchase.human_id
-purchase.human_paid
-purchase.human_quantity
-purchase.human_commission
-purchase.human_amount
-purchase.human_expired_at
-purchase.expired_at_to_short_date
-purchase.human_created_at
-purchase.created_at_to_short_date
-purchase.human_updated_at
-purchase.updated_at_to_short_date
+human_id => Purchase: #1
+human_paid => Yes
+human_commission => 1000.990%
+human_quantity => 1
+human_expired_at => Fri, 06 Apr 1984 09:00:00 +0000
+expired_at_to_short_date => Apr 06
+expired_at_to_long_date => Apr 06
+expired_at_to_short_datetime => 06 Apr 09:00
+expired_at_to_long_datetime => 06 Apr 09:00
+human_amount => $2,000,000.95
+human_created_at => Sat, 10 Dec 2016 21:18:15 +0000
+created_at_to_short_date => Dec 10
+created_at_to_long_date => Dec 10
+created_at_to_short_datetime => 10 Dec 21:18
+created_at_to_long_datetime => 10 Dec 21:18
+human_updated_at => Sat, 10 Dec 2016 21:18:15 +0000
+updated_at_to_short_date => Dec 10
+updated_at_to_long_date => Dec 10
+updated_at_to_short_datetime => 10 Dec 21:18
+updated_at_to_long_datetime => 10 Dec 21:18
+human_state => Pending
 ```
 
 > You can pass to `humanize_attributes` the option `only: [:attr1, :attr2]` to humanize specific attributes. The `except` option works in similar way.

@@ -33,8 +33,11 @@ module HumanAttributes
       def humanize_from_type(col)
         if col.name == "id"
           humanize(:id, custom: { formatter: ->(_o, value) { "#{model_name.human}: ##{value}" } })
-        elsif [:date, :datetime].include?(col.type)
+        elsif col.type == :date
           humanize_date(col.name)
+        elsif col.type == :datetime
+          humanize_date(col.name)
+          humanize_datetime(col.name)
         elsif [:decimal, :float, :integer].include?(col.type)
           humanize(col.name, delimiter: true)
         elsif col.type == :boolean
@@ -45,6 +48,13 @@ module HumanAttributes
       def humanize_date(attr_name)
         humanize(attr_name, date: true)
         humanize(attr_name, date: { format: :short, suffix: "to_short_date" })
+        humanize(attr_name, date: { format: :short, suffix: "to_long_date" })
+      end
+
+      def humanize_datetime(attr_name)
+        humanize(attr_name, datetime: true)
+        humanize(attr_name, datetime: { format: :short, suffix: "to_short_datetime" })
+        humanize(attr_name, datetime: { format: :short, suffix: "to_long_datetime" })
       end
     end
   end

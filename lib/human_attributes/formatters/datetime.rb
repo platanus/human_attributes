@@ -1,8 +1,8 @@
 module HumanAttributes
   module Formatters
-    class Date < Base
+    class Datetime < Base
       def apply(_instance, value)
-        I18n.l(value.to_date, options)
+        I18n.l(value.to_datetime, options)
       rescue
         nil
       end

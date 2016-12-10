@@ -49,6 +49,11 @@ module HumanAttributes
         suffix: :to_human_date
       },
       {
+        name: :datetime,
+        category: :datetime,
+        suffix: :to_human_datetime
+      },
+      {
         name: :boolean,
         category: :boolean,
         suffix: :to_human_boolean

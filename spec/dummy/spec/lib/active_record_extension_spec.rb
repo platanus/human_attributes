@@ -291,47 +291,56 @@ RSpec.describe "ActiveRecordExtension" do
       end
     end
 
-    context "with date format" do
+    context "with date and datetime formats" do
       before { purchase.expired_at = "04/06/1984 09:20:00" }
+      before { purchase.created_at = "04/06/1985 09:20:00" }
 
       context "passing custom format" do
         before do
           class Purchase < ActiveRecord::Base
             humanize :expired_at, date: { format: "%Y" }
+            humanize :created_at, datetime: { format: "%Y" }
           end
         end
 
         it { expect(purchase.human_expired_at).to eq("1984") }
+        it { expect(purchase.human_created_at).to eq("1985") }
       end
 
       context "without options" do
         before do
           class Purchase < ActiveRecord::Base
             humanize :expired_at, date: true
+            humanize :created_at, datetime: true
           end
         end
 
-        it { expect(purchase.human_expired_at).to eq("Mon, 04 Jun 1984 09:20:00 +0000") }
+        it { expect(purchase.human_expired_at).to eq("1984-06-04") }
+        it { expect(purchase.human_created_at).to eq("Tue, 04 Jun 1985 09:20:00 +0000") }
       end
 
       context "with short format" do
         before do
           class Purchase < ActiveRecord::Base
             humanize :expired_at, date: { format: :short }
+            humanize :created_at, datetime: { format: :short }
           end
         end
 
-        it { expect(purchase.human_expired_at).to eq("04 Jun 09:20") }
+        it { expect(purchase.human_expired_at).to eq("Jun 04") }
+        it { expect(purchase.human_created_at).to eq("04 Jun 09:20") }
       end
 
       context "with long format" do
         before do
           class Purchase < ActiveRecord::Base
             humanize :expired_at, date: { format: :long }
+            humanize :created_at, datetime: { format: :long }
           end
         end
 
-        it { expect(purchase.human_expired_at).to eq("June 04, 1984 09:20") }
+        it { expect(purchase.human_expired_at).to eq("June 04, 1984") }
+        it { expect(purchase.human_created_at).to eq("June 04, 1985 09:20") }
       end
     end
   end
@@ -352,11 +361,11 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase.human_commission).to eq("1,000.99") }
       it { expect(purchase.human_amount).to eq("2,000,000.95") }
       it { expect(purchase.human_expired_at).to eq("Fri, 06 Apr 1984 09:00:00 +0000") }
-      it { expect(purchase.expired_at_to_short_date).to eq("06 Apr 09:00") }
+      it { expect(purchase.expired_at_to_short_datetime).to eq("06 Apr 09:00") }
       it { expect(purchase).to respond_to(:human_created_at) }
-      it { expect(purchase).to respond_to(:created_at_to_short_date) }
+      it { expect(purchase).to respond_to(:created_at_to_short_datetime) }
       it { expect(purchase).to respond_to(:human_updated_at) }
-      it { expect(purchase).to respond_to(:updated_at_to_short_date) }
+      it { expect(purchase).to respond_to(:updated_at_to_short_datetime) }
     end
 
     context "with only option" do
@@ -372,11 +381,11 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase).not_to respond_to(:human_commission) }
       it { expect(purchase.human_amount).to eq("2,000,000.95") }
       it { expect(purchase).not_to respond_to(:human_expired_at) }
-      it { expect(purchase).not_to respond_to(:expired_at_to_short_date) }
+      it { expect(purchase).not_to respond_to(:expired_at_to_short_datetime) }
       it { expect(purchase).not_to respond_to(:human_created_at) }
-      it { expect(purchase).not_to respond_to(:created_at_to_short_date) }
+      it { expect(purchase).not_to respond_to(:created_at_to_short_datetime) }
       it { expect(purchase).not_to respond_to(:human_updated_at) }
-      it { expect(purchase).not_to respond_to(:updated_at_to_short_date) }
+      it { expect(purchase).not_to respond_to(:updated_at_to_short_datetime) }
     end
 
     context "with except option" do
@@ -392,11 +401,11 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase.human_commission).to eq("1,000.99") }
       it { expect(purchase).not_to respond_to(:human_amount) }
       it { expect(purchase.human_expired_at).to eq("Fri, 06 Apr 1984 09:00:00 +0000") }
-      it { expect(purchase.expired_at_to_short_date).to eq("06 Apr 09:00") }
+      it { expect(purchase.expired_at_to_short_datetime).to eq("06 Apr 09:00") }
       it { expect(purchase).to respond_to(:human_created_at) }
-      it { expect(purchase).to respond_to(:created_at_to_short_date) }
+      it { expect(purchase).to respond_to(:created_at_to_short_datetime) }
       it { expect(purchase).to respond_to(:human_updated_at) }
-      it { expect(purchase).to respond_to(:updated_at_to_short_date) }
+      it { expect(purchase).to respond_to(:updated_at_to_short_datetime) }
     end
   end
 end
