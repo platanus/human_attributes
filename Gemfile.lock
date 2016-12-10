@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     human_attributes (0.1.0)
-      enumerize (~> 1.1, >= 1.1.1)
-      factory_girl_rails (~> 4.6.0)
+      enumerize (~> 1, >= 1.1.1)
+      factory_girl_rails (~> 4.6)
       rails (~> 4.2, >= 4.2.0)
 
 GEM
@@ -52,10 +52,10 @@ GEM
     enumerize (1.1.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
-    factory_girl (4.5.0)
+    factory_girl (4.7.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.6.0)
-      factory_girl (~> 4.5.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
     ffi (1.9.14)
     formatador (0.2.5)
@@ -180,7 +180,7 @@ DEPENDENCIES
   human_attributes!
   pry
   pry-rails
-  rspec-rails (~> 3.4.0)
+  rspec-rails (~> 3.4)
   sqlite3
 
 BUNDLED WITH
