@@ -364,27 +364,26 @@ The `humanize_attributes` method will infer from the attribute's data type which
 With our `Purchase` model we will get:
 
 ```ruby
-human_id => Purchase: #1
-human_paid => Yes
-human_commission => 1000.990%
-human_quantity => 1
-human_expired_at => Fri, 06 Apr 1984 09:00:00 +0000
-expired_at_to_short_date => Apr 06
-expired_at_to_long_date => Apr 06
-expired_at_to_short_datetime => 06 Apr 09:00
-expired_at_to_long_datetime => 06 Apr 09:00
-human_amount => $2,000,000.95
-human_created_at => Sat, 10 Dec 2016 21:18:15 +0000
-created_at_to_short_date => Dec 10
-created_at_to_long_date => Dec 10
-created_at_to_short_datetime => 10 Dec 21:18
-created_at_to_long_datetime => 10 Dec 21:18
-human_updated_at => Sat, 10 Dec 2016 21:18:15 +0000
-updated_at_to_short_date => Dec 10
-updated_at_to_long_date => Dec 10
-updated_at_to_short_datetime => 10 Dec 21:18
-updated_at_to_long_datetime => 10 Dec 21:18
-human_state => Pending
+purchase.human_id
+purchase.human_paid
+purchase.human_commission
+purchase.human_quantity
+purchase.human_expired_at
+purchase.expired_at_to_short_date
+purchase.expired_at_to_long_date
+purchase.expired_at_to_short_datetime
+purchase.expired_at_to_long_datetime
+purchase.human_amount
+purchase.human_created_at
+purchase.created_at_to_short_date
+purchase.created_at_to_long_date
+purchase.created_at_to_short_datetime
+purchase.created_at_to_long_datetime
+purchase.human_updated_at
+purchase.updated_at_to_short_date
+purchase.updated_at_to_long_date
+purchase.updated_at_to_short_datetime
+purchase.updated_at_to_long_datetime
 ```
 
 > You can pass to `humanize_attributes` the option `only: [:attr1, :attr2]` to humanize specific attributes. The `except` option works in similar way.
@@ -420,12 +419,21 @@ human_paid => Yes
 human_commission => 1000.990%
 human_quantity => 1
 human_expired_at => Fri, 06 Apr 1984 09:00:00 +0000
-expired_at_to_short_date => 06 Apr 09:00
+expired_at_to_short_date => Apr 06
+expired_at_to_long_date => Apr 06
+expired_at_to_short_datetime => 06 Apr 09:00
+expired_at_to_long_datetime => 06 Apr 09:00
 human_amount => $2,000,000.95
-human_created_at => Sat, 10 Dec 2016 20:06:28 +0000
-created_at_to_short_date => 10 Dec 20:06
-human_updated_at => Sat, 10 Dec 2016 20:06:28 +0000
-updated_at_to_short_date => 10 Dec 20:06
+human_created_at => Sat, 10 Dec 2016 21:18:15 +0000
+created_at_to_short_date => Dec 10
+created_at_to_long_date => Dec 10
+created_at_to_short_datetime => 10 Dec 21:18
+created_at_to_long_datetime => 10 Dec 21:18
+human_updated_at => Sat, 10 Dec 2016 21:18:15 +0000
+updated_at_to_short_date => Dec 10
+updated_at_to_long_date => Dec 10
+updated_at_to_short_datetime => 10 Dec 21:18
+updated_at_to_long_datetime => 10 Dec 21:18
 human_state => Pending
 ```
 
