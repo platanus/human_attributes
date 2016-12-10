@@ -8,7 +8,7 @@ module HumanAttributes
       @config = config
     end
 
-    def get
+    def build
       formatters = []
 
       get_types(@config).each do |type|

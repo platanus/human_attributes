@@ -4,10 +4,10 @@ module HumanAttributes
 
     class_methods do
       def humanize(*attrs, options)
-        formatters = HumanAttributes::FormattersBuilder.new(attrs, options).get
+        formatters = HumanAttributes::FormattersBuilder.new(attrs, options).build
         @builder ||= HumanAttributes::MethodBuilder.new(self)
-        @humanize_methods ||= []
-        formatters.each { |formatter| @humanize_methods << @builder.build(formatter) }
+        @humanizers ||= []
+        formatters.each { |formatter| @humanizers << @builder.build(formatter) }
       end
 
       def humanize_attributes(options = {})
@@ -23,11 +23,11 @@ module HumanAttributes
 
       private
 
-      def humanize_methods
-        return [] unless @humanize_methods
-        @humanize_methods.uniq!
-        @humanize_methods.reject! { |method| !method_defined?(method) }
-        @humanize_methods
+      def humanizers
+        return [] unless @humanizers
+        @humanizers.uniq!
+        @humanizers.reject! { |method| !method_defined?(method) }
+        @humanizers
       end
 
       def humanize_from_type(col)

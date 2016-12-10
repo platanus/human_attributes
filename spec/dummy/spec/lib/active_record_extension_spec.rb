@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "ActiveRecordExtension" do
   after do
     class Purchase < ActiveRecord::Base
-      humanize_methods.each do |method|
+      humanizers.each do |method|
         remove_method method
       end
     end
