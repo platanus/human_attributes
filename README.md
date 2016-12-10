@@ -1,6 +1,21 @@
 # Human Attributes
 
-Gem to convert ActiveRecord attributes and methods to human readable attributes
+It's a Gem to convert ActiveRecord models' attributes and methods to human readable representations of these.
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Formatters](#formatters)
+  - [Numeric](#numeric)
+  - [Date](#date)
+  - [Boolean](#boolean)
+  - [Enumerize](#enumerize)
+  - [Custom Formatter](#custom-formatter)
+- [Common Options](#common-options)
+  - [Default](#default)
+  - [Suffix](#suffix)
+- [Multiple Formatters](#multiple-formatters)
+- [Humanize Active Record Attributes](#humanize-active-record-attributes)
+- [Rake Task](#rake-task)
 
 ## Installation
 
@@ -16,7 +31,7 @@ bundle install
 
 ## Usage
 
-Having the following model:
+Suppose you have the following model:
 
 ```ruby
 # == Schema Information
@@ -48,9 +63,9 @@ class Purchase < ActiveRecord::Base
 end
 ```
 
-You can execute, inside the class definition, `humanize` to generate **Human Representations** of Purchase's attributes and methods.
+Executing the `humanize` method, inside the class definition, will allow you to apply **Formatters** to `Purchase`'s attributes and methods.
 
-### Human Representations
+### Formatters
 
 #### Numeric
 
@@ -208,6 +223,8 @@ purchase.human_id #=> "Purchase: 1-1"
 
 ### Common Options
 
+The following options are available to use with all the formatters presented before.
+
 #### Default
 
 With...
@@ -232,6 +249,8 @@ purchase.human_amount #=> "$0"
 ```
 
 #### Suffix
+
+Useful when you want to define multiple formatters for the same attribute.
 
 With...
 
@@ -314,11 +333,28 @@ purchase.updated_at_to_short_date
 
 ### Rake Task
 
-You can run from your terminal the following task to show defined human attributes for a particular ActiveRecord model.
+You can run, from your terminal, the following task to show defined human attributes for a particular ActiveRecord model.
 
-`$ rake human_attrs:show[purchase]`
+`$ rake human_attrs:show[your-model-name]`
 
-Doing this, you will see something like this:
+So, with...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  extend Enumerize
+
+  STATES = %i{pending canceled finished}
+
+  enumerize :state, in: STATES, default: :pending
+
+  humanize_attributes
+  humanize :state, enumerize: true
+  humanize :commission, percentage: true
+  humanize :amount, currency: true
+end
+```
+
+And running `rake human_attrs:show[purchase]`, you will see the following output:
 
 ```
 human_id => Purchase: #1
@@ -328,12 +364,13 @@ human_quantity => 1
 human_expired_at => Fri, 06 Apr 1984 09:00:00 +0000
 expired_at_to_short_date => 06 Apr 09:00
 human_amount => $2,000,000.95
-human_created_at => Sat, 10 Dec 2016 17:11:31 +0000
-created_at_to_short_date => 10 Dec 17:11
-human_updated_at => Sat, 10 Dec 2016 17:11:31 +0000
-updated_at_to_short_date => 10 Dec 17:11
+human_created_at => Sat, 10 Dec 2016 20:06:28 +0000
+created_at_to_short_date => 10 Dec 20:06
+human_updated_at => Sat, 10 Dec 2016 20:06:28 +0000
+updated_at_to_short_date => 10 Dec 20:06
 human_state => Pending
 ```
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

@@ -36,7 +36,7 @@ module HumanAttributes
         elsif [:date, :datetime].include?(col.type)
           humanize_date(col.name)
         elsif [:decimal, :float, :integer].include?(col.type)
-          humanize(col.name, number: true)
+          humanize(col.name, delimiter: true)
         elsif col.type == :boolean
           humanize(col.name, boolean: true)
         end
