@@ -312,6 +312,28 @@ purchase.updated_at_to_short_date
 
 > You can pass to `humanize_attributes` the option `only: [:attr1, :attr2]` to humanize specific attributes. The `except` option works in similar way.
 
+### Rake Task
+
+You can run from your terminal the following task to show defined human attributes for a particular ActiveRecord model.
+
+`$ rake human_attrs:show[purchase]`
+
+Doing this, you will see something like this:
+
+```
+human_id => Purchase: #1
+human_paid => Yes
+human_commission => 1000.990%
+human_quantity => 1
+human_expired_at => Fri, 06 Apr 1984 09:00:00 +0000
+expired_at_to_short_date => 06 Apr 09:00
+human_amount => $2,000,000.95
+human_created_at => Sat, 10 Dec 2016 17:11:31 +0000
+created_at_to_short_date => 10 Dec 17:11
+human_updated_at => Sat, 10 Dec 2016 17:11:31 +0000
+updated_at_to_short_date => 10 Dec 17:11
+human_state => Pending
+```
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

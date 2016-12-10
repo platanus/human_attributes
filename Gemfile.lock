@@ -3,6 +3,7 @@ PATH
   specs:
     human_attributes (0.0.1)
       enumerize (~> 1.1, >= 1.1.1)
+      factory_girl_rails (~> 4.6.0)
       rails (~> 4.2, >= 4.2.0)
 
 GEM
@@ -175,7 +176,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  factory_girl_rails (~> 4.6.0)
   guard-rspec (~> 4.7)
   human_attributes!
   pry

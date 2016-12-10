@@ -21,14 +21,14 @@ module HumanAttributes
         end
       end
 
-      private
-
       def humanizers
         return [] unless @humanizers
         @humanizers.uniq!
         @humanizers.reject! { |method| !method_defined?(method) }
         @humanizers
       end
+
+      private
 
       def humanize_from_type(col)
         if col.name == "id"

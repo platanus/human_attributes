@@ -20,4 +20,9 @@ class Purchase < ActiveRecord::Base
   STATES = %i{pending canceled finished}
 
   enumerize :state, in: STATES, default: :pending
+
+  humanize_attributes
+  humanize :state, enumerize: true
+  humanize :commission, percentage: true
+  humanize :amount, currency: true
 end
