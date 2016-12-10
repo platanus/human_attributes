@@ -349,8 +349,8 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase.human_id).to eq("Purchase: ##{purchase.id}") }
       it { expect(purchase.human_paid).to eq("Yes") }
       it { expect(purchase.human_quantity).to eq("1") }
-      it { expect(purchase.human_commission).to eq("1 Thousand") }
-      it { expect(purchase.human_amount).to eq("2 Million") }
+      it { expect(purchase.human_commission).to eq("1,000.99") }
+      it { expect(purchase.human_amount).to eq("2,000,000.95") }
       it { expect(purchase.human_expired_at).to eq("Fri, 06 Apr 1984 09:00:00 +0000") }
       it { expect(purchase.expired_at_to_short_date).to eq("06 Apr 09:00") }
       it { expect(purchase).to respond_to(:human_created_at) }
@@ -370,7 +370,7 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase.human_paid).to eq("Yes") }
       it { expect(purchase).not_to respond_to(:human_quantity) }
       it { expect(purchase).not_to respond_to(:human_commission) }
-      it { expect(purchase.human_amount).to eq("2 Million") }
+      it { expect(purchase.human_amount).to eq("2,000,000.95") }
       it { expect(purchase).not_to respond_to(:human_expired_at) }
       it { expect(purchase).not_to respond_to(:expired_at_to_short_date) }
       it { expect(purchase).not_to respond_to(:human_created_at) }
@@ -389,7 +389,7 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase).not_to respond_to(:human_id) }
       it { expect(purchase).not_to respond_to(:human_paid) }
       it { expect(purchase.human_quantity).to eq("1") }
-      it { expect(purchase.human_commission).to eq("1 Thousand") }
+      it { expect(purchase.human_commission).to eq("1,000.99") }
       it { expect(purchase).not_to respond_to(:human_amount) }
       it { expect(purchase.human_expired_at).to eq("Fri, 06 Apr 1984 09:00:00 +0000") }
       it { expect(purchase.expired_at_to_short_date).to eq("06 Apr 09:00") }
