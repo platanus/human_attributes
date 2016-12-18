@@ -19,7 +19,7 @@ module HumanAttributes
       require_relative "./formatters/enumerize"
       require_relative "./formatters/custom"
       require_relative "./method_builder"
-      require_relative "./active_record_extension"
+      require_relative "./extension"
     end
   end
 end

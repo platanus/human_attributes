@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.2", ">= 4.2.0"
   s.add_dependency "enumerize", "~> 1", ">= 1.1.1"
   s.add_dependency "factory_girl_rails", "~> 4.6"
+  s.add_development_dependency "draper", "~> 2.1.0"
   s.add_development_dependency "pry"
   s.add_development_dependency "pry-rails"
   s.add_development_dependency "sqlite3"

@@ -1,5 +1,5 @@
 module HumanAttributes
-  module ActiveRecordExtension
+  module Extension
     extend ActiveSupport::Concern
 
     class_methods do
@@ -60,4 +60,10 @@ module HumanAttributes
   end
 end
 
-ActiveRecord::Base.send(:include, HumanAttributes::ActiveRecordExtension)
+ActiveRecord::Base.send(:include, HumanAttributes::Extension)
+
+begin
+  Draper::Decorator.send(:include, HumanAttributes::Extension)
+rescue NameError
+  nil
+end

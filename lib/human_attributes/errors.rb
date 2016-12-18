@@ -1,43 +1,43 @@
 module HumanAttributes
   module Error
-    class NotImplemented < Exception
+    class NotImplemented < RuntimeError
       def initialize
         super("formatter not implemented")
       end
     end
 
-    class InvalidHumanizeConfig < Exception
+    class InvalidHumanizeConfig < RuntimeError
       def initialize
         super("humanize options needs to be a Hash")
       end
     end
 
-    class NotEnumerizeAttribute < Exception
+    class NotEnumerizeAttribute < RuntimeError
       def initialize
         super("needs to be an Enumerize::Value object")
       end
     end
 
-    class MissingFormatterOption < Exception
+    class MissingFormatterOption < RuntimeError
       def initialize
         super("custom type needs formatter option with a proc")
       end
     end
 
-    class InvalidType < Exception
+    class InvalidType < RuntimeError
       def initialize
         types = HumanAttributes::Config::TYPES.map { |t| t[:name] }
         super("type needs to be one of: #{types.join(', ')}")
       end
     end
 
-    class RequiredAttributeType < Exception
+    class RequiredAttributeType < RuntimeError
       def initialize
         super("type is required")
       end
     end
 
-    class InvalidAttributeOptions < Exception
+    class InvalidAttributeOptions < RuntimeError
       def initialize
         super("options needs to be a Hash")
       end

@@ -16,6 +16,7 @@ It's a Gem to convert ActiveRecord models' attributes and methods to human reada
   - [Suffix](#suffix)
 - [Multiple Formatters](#multiple-formatters)
 - [Humanize Active Record Attributes](#humanize-active-record-attributes)
+- [Integration with Draper Gem](#draper-integration)
 - [Rake Task](#rake-task)
 
 ## Installation
@@ -387,6 +388,59 @@ purchase.updated_at_to_long_datetime
 ```
 
 > You can pass to `humanize_attributes` the option `only: [:attr1, :attr2]` to humanize specific attributes. The `except` option works in similar way.
+
+### Integration with Draper Gem
+
+If you are thinking that the formatting functionality is a **view related issue**, you are right. Because of this, we made the integration with [Draper gem](https://github.com/drapergem/draper). Using draper, you can move all your humanizers to your model's decorator.
+
+With...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  extend Enumerize
+
+  STATES = %i{pending canceled finished}
+
+  enumerize :state, in: STATES, default: :pending
+
+  humanize :state, enumerize: true
+  humanize :commission, percentage: true
+  humanize :amount, currency: true
+end
+```
+
+You can refactor your code like this:
+
+```ruby
+class Purchase < ActiveRecord::Base
+  extend Enumerize
+
+  STATES = %i{pending canceled finished}
+
+  enumerize :state, in: STATES, default: :pending
+end
+
+class PurchaseDecorator < Draper::Decorator
+  delegate_all
+
+  humanize :state, enumerize: true
+  humanize :commission, percentage: true
+  humanize :amount, currency: true
+end
+```
+
+Then, you can use it, like this:
+
+```ruby
+purchase.human_amount #=> NoMethodError: undefined method `human_amount'
+purchase.decorate.human_amount #=> $2,000,000.95
+```
+
+It's not mandatory to use draper as decorator. You can extend whatever you want including `HumanAttributes::Extension`. For example:
+
+```ruby
+Draper::Decorator.send(:include, HumanAttributes::Extension)
+```
 
 ### Rake Task
 
