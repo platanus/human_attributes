@@ -1,4 +1,5 @@
 require "rails_helper"
+require "enumerize"
 
 RSpec.describe "ActiveRecordExtension" do
   after do

@@ -14,6 +14,8 @@
 #  updated_at  :datetime         not null
 #
 
+require "enumerize"
+
 class Purchase < ActiveRecord::Base
   extend Enumerize
 

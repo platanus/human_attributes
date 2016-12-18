@@ -1,4 +1,3 @@
-require "enumerize"
 require "human_attributes/engine"
 
 module HumanAttributes
