@@ -16,7 +16,7 @@ It's a Gem to convert ActiveRecord models' attributes and methods to human reada
   - [Suffix](#suffix)
 - [Multiple Formatters](#multiple-formatters)
 - [Humanize Active Record Attributes](#humanize-active-record-attributes)
-- [Integration with Draper Gem](#draper-integration)
+- [Integration with Draper Gem](#integration-with-draper-gem)
 - [Rake Task](#rake-task)
 
 ## Installation
