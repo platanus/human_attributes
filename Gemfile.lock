@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    human_attributes (0.3.0)
+    human_attributes (0.3.1)
       factory_girl_rails (~> 4.6)
       rails (~> 4.2, >= 4.2.0)
 
