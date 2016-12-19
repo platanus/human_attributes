@@ -8,8 +8,8 @@ module HumanAttributes
       def initialize(attribute, type, options)
         @attribute = attribute.to_sym
         @type = type.to_sym
-        @default = options.delete(:default)
-        @suffix = options.delete(:suffix)
+        @default = options[:default]
+        @suffix = options[:suffix]
         @options = options
       end
 
