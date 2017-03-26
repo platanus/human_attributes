@@ -1,0 +1,15 @@
+sudo: false
+language: ruby
+rvm:
+- 2.3.1
+script:
+- RAILS_ENV=test bundle exec rake db:create db:migrate
+- bundle exec rspec spec
+deploy:
+  provider: rubygems
+  api_key:
+    secure: E6ajLuO5il2IstmXIMo+jVqLN8x5GO7LVLSRolZwxYHOiN28OYJbPvKGKCEoDJ0l8XHcsJJAaaKKGg9rJEtzoqCVDvIyf4Zmp3XW804yVEoO9m69gJRn7TDbVvEFyJDPwWDG0Li9J4FbmyLoubqPT4KjTC8tVzYN7cKo9FbHlvtS1F9DvnmvyYVW/dU3iuQDFFD0ctO32+9TS1RnJ9RJXEFJd2GFX2eIKJgvlSQZeI2ZgXVZ1PSZVKElkIQLMnhDJVy/Zj/wde1eRzU/AXNQi5p+4LLnLOAxiqWCq8LsPufmuDHZlpkXBOjXYPhaLiRZFeKu/ymBGEu/FqXkpu//ANQDKZS5AkhbddAfZcR3+hRiCb5pUKuRX5X912w20ormNePKYwfs//WpZECneL3UaPq4T4msstOTjeBomJ99zvpU7DC1LAVv1ja1e44eHd3lXasVtXOFMJUv2eTncGY+nVqdqyFFTnB59AtloxfTFaGI9e894rE7dpxEzPO3UOVeBodBH8CkZVMG6OWiP7zkF9vqfrrBETiQXlyGaN9XEk8G+y6Rui8eoETXZYJKfXHPZnv56ntTBHoMu7VWdYPVuwuKKIyaOoNJPsIbKRbF7O9XWkb5/HbDPnt8Q+eFEntYP3Jr+YelghAKN2RX0CDhXFUBxxf7Ew7GEvt2tpbHq44=
+  gem: human_attributes
+  on:
+    tags: true
+    repo: platanus/human_attributes
