@@ -24,7 +24,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "pry"
 require "spec_helper"
 require "rspec/rails"
-require "factory_girl_rails"
+require "factory_bot"
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -39,10 +39,10 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 
-  FactoryGirl.definition_file_paths = ["#{::Rails.root}/spec/factories"]
-  FactoryGirl.find_definitions
+  FactoryBot.definition_file_paths = ["#{::Rails.root}/spec/factories"]
+  FactoryBot.find_definitions
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include ActionDispatch::TestProcess
   config.include TestHelpers
 end

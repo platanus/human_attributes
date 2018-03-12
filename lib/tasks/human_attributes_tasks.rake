@@ -1,12 +1,14 @@
-require "factory_girl_rails"
+require "factory_bot"
 
 namespace :human_attrs do
   desc "Show generated human attributes for ActiveRecord models"
   task :show, [:model] => [:environment] do |_t, args|
+    FactoryBot.reload
     model_name = args[:model].tableize.singularize
     model = args[:model].classify.constantize
+
     instance = begin
-      FactoryGirl.build(model_name)
+      FactoryBot.build(model_name)
     rescue
       nil
     end
