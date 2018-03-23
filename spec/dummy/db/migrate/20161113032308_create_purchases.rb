@@ -1,4 +1,4 @@
-class CreatePurchases < ActiveRecord::Migration
+class CreatePurchases < ActiveRecord::Migration[4.2]
   def change
     create_table :purchases do |t|
       t.boolean :paid

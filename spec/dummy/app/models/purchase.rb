@@ -16,7 +16,7 @@
 
 require "enumerize"
 
-class Purchase < ActiveRecord::Base
+class Purchase < ApplicationRecord
   extend Enumerize
 
   STATES = %i{pending canceled finished}

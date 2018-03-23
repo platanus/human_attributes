@@ -24,7 +24,7 @@ module HumanAttributes
       def humanizers
         return [] unless @humanizers
         @humanizers.uniq!
-        @humanizers.reject! { |method| !method_defined?(method) }
+        @humanizers.select! { |method| method_defined?(method) }
         @humanizers
       end
 

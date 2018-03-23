@@ -1,4 +1,7 @@
-# Human Attributes [![Gem Version](https://badge.fury.io/rb/human_attributes.svg)](https://badge.fury.io/rb/human_attributes) [![Build Status](https://travis-ci.org/platanus/human_attributes.svg?branch=master)](https://travis-ci.org/platanus/human_attributes) [![Coverage Status](https://coveralls.io/repos/github/platanus/human_attributes/badge.svg)](https://coveralls.io/github/platanus/human_attributes)
+# Human Attributes
+[![Gem Version](https://badge.fury.io/rb/human_attributes.svg)](https://badge.fury.io/rb/human_attributes)
+[![Build Status](https://travis-ci.org/platanus/human_attributes.svg?branch=master)](https://travis-ci.org/platanus/human_attributes)
+[![Coverage Status](https://coveralls.io/repos/github/platanus/human_attributes/badge.svg)](https://coveralls.io/github/platanus/human_attributes)
 
 It's a Gem to convert ActiveRecord models' attributes and methods to human readable representations of these.
 
