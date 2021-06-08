@@ -17,12 +17,14 @@ module HumanAttributes
           next if col.name.ends_with?("_id")
           next if included_attrs && !included_attrs.include?(col.name.to_sym)
           next if excluded_attrs && excluded_attrs.include?(col.name.to_sym)
+
           humanize_from_type(col)
         end
       end
 
       def humanizers
         return [] unless @humanizers
+
         @humanizers.uniq!
         @humanizers.select! { |method| method_defined?(method) }
         @humanizers
@@ -60,10 +62,10 @@ module HumanAttributes
   end
 end
 
-ActiveRecord::Base.send(:include, HumanAttributes::Extension)
+ActiveRecord::Base.include(HumanAttributes::Extension)
 
 begin
-  Draper::Decorator.send(:include, HumanAttributes::Extension)
+  Draper::Decorator.include(HumanAttributes::Extension)
 rescue NameError
   nil
 end
