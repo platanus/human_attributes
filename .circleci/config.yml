@@ -81,8 +81,8 @@ jobs:
       - run:
           name: Publish to rubygems
           command: |
-            GEM_FILE_NAME="gemaker-$(git describe --tags).gem"
-            gem build gemaker.gemspec -o $GEM_FILE_NAME
+            GEM_FILE_NAME="human_attributes-$(git describe --tags).gem"
+            gem build human_attributes.gemspec -o $GEM_FILE_NAME
             gem push $GEM_FILE_NAME
 
 workflows:
@@ -97,8 +97,6 @@ workflows:
               ruby-version: ["2.5", "2.6", "2.7"]
       - deploy:
           context: org-global
-          requires:
-            - test
           filters:
             tags:
               only: /.*/

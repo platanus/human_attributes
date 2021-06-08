@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    human_attributes (0.6.0)
+    human_attributes (0.7.0)
       factory_bot
       rails (>= 4.2.0)
 
