@@ -1,9 +1,10 @@
 require "rails_helper"
 require "enumerize"
 
+# rubocop:disable Lint/ConstantDefinitionInBlock
 RSpec.describe "ActiveRecordExtension" do
   after do
-    class Purchase < ActiveRecord::Base
+    class Purchase < ApplicationRecord
       humanizers.each do |method|
         remove_method method
       end
@@ -15,7 +16,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     it "raises error passing invalid options" do
       expect do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, "invalid"
         end
       end.to raise_error(HumanAttributes::Error::InvalidHumanizeConfig)
@@ -23,7 +24,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     it "raises error passing multiple types" do
       expect do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, invalid: true
         end
       end.to raise_error(HumanAttributes::Error::InvalidType)
@@ -31,7 +32,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     it "raises error passing no type" do
       expect do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, {}
         end
       end.to raise_error(HumanAttributes::Error::RequiredAttributeType)
@@ -39,7 +40,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     it "raises error trying to pass invalid options" do
       expect do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, currency: "invalid"
         end
       end.to raise_error(HumanAttributes::Error::InvalidAttributeOptions)
@@ -47,7 +48,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     context "with default value" do
       before do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, currency: { default: 666 }
         end
 
@@ -59,7 +60,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     context "with default value" do
       before do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize :amount, percentage: { suffix: true }, currency: { suffix: true }
         end
 
@@ -75,7 +76,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with default suffix" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :amount, currency: { suffix: true }
           end
         end
@@ -85,7 +86,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with custom suffix" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :amount, currency: { suffix: "to_cur" }
           end
         end
@@ -102,7 +103,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with no options" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :amount, currency: true
           end
         end
@@ -112,7 +113,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with valid options" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :amount, currency: { unit: "R$", separator: ",", delimiter: " " }
           end
         end
@@ -122,7 +123,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with multiple attributes" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :amount, :commission, currency: true
           end
         end
@@ -133,7 +134,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with calculated attributes (instance methods)" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :commission_amount, currency: true
 
             def commission_amount
@@ -151,7 +152,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with number type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, number: true
           end
         end
@@ -161,7 +162,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with size type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, size: true
           end
         end
@@ -171,7 +172,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with percentage type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, percentage: true
           end
         end
@@ -183,7 +184,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with phone type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, phone: true
           end
         end
@@ -193,7 +194,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with delimiter type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, delimiter: true
           end
         end
@@ -203,7 +204,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with precision type" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :quantity, precision: true
           end
         end
@@ -217,7 +218,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "passing true value" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :paid, boolean: true
           end
         end
@@ -229,7 +230,7 @@ RSpec.describe "ActiveRecordExtension" do
         before do
           purchase.paid = false
 
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :paid, boolean: true
           end
         end
@@ -241,7 +242,7 @@ RSpec.describe "ActiveRecordExtension" do
     context "with custom formatter" do
       it "raises error with missing formatter option" do
         expect do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :id, custom: true
           end
         end.to raise_error(HumanAttributes::Error::MissingFormatterOption)
@@ -252,7 +253,7 @@ RSpec.describe "ActiveRecordExtension" do
           purchase.id = 1
           purchase.paid = true
 
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :id, custom: { formatter: ->(purchase, value) { "#{value}:#{purchase.paid}" } }
           end
         end
@@ -264,7 +265,7 @@ RSpec.describe "ActiveRecordExtension" do
     context "with Enumerize attribute" do
       context "passing valid value" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             extend Enumerize
             enumerize :state, in: %i{canceled finished}
             humanize :state, enumerize: true
@@ -278,7 +279,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "passing no enum value" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             extend Enumerize
             humanize :quantity, enumerize: true
           end
@@ -298,7 +299,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "passing custom format" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :expired_at, date: { format: "%Y" }
             humanize :created_at, datetime: { format: "%Y" }
           end
@@ -310,7 +311,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "without options" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :expired_at, date: true
             humanize :created_at, datetime: true
           end
@@ -322,7 +323,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with short format" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :expired_at, date: { format: :short }
             humanize :created_at, datetime: { format: :short }
           end
@@ -334,7 +335,7 @@ RSpec.describe "ActiveRecordExtension" do
 
       context "with long format" do
         before do
-          class Purchase < ActiveRecord::Base
+          class Purchase < ApplicationRecord
             humanize :expired_at, date: { format: :long }
             humanize :created_at, datetime: { format: :long }
           end
@@ -351,7 +352,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     context "without options" do
       before do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize_attributes
         end
       end
@@ -371,7 +372,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     context "with only option" do
       before do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize_attributes only: [:id, :paid, :amount]
         end
       end
@@ -391,7 +392,7 @@ RSpec.describe "ActiveRecordExtension" do
 
     context "with except option" do
       before do
-        class Purchase < ActiveRecord::Base
+        class Purchase < ApplicationRecord
           humanize_attributes except: [:id, :paid, :amount]
         end
       end
@@ -410,3 +411,4 @@ RSpec.describe "ActiveRecordExtension" do
     end
   end
 end
+# rubocop:enable Lint/ConstantDefinitionInBlock

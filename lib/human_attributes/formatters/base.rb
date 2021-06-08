@@ -16,6 +16,7 @@ module HumanAttributes
       def method_name
         return "human_#{attribute}" if suffix.blank?
         return "#{attribute}_#{suffix_by_type(type)}" if suffix == true
+
         "#{attribute}_#{suffix}"
       end
 

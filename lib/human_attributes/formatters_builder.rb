@@ -37,6 +37,7 @@ module HumanAttributes
 
     def get_options(options)
       return {} if options == true
+
       raise_error('InvalidAttributeOptions') unless options.is_a?(Hash)
       options
     end
