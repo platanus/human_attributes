@@ -14,6 +14,7 @@ It's a Gem to convert ActiveRecord models' attributes and methods to human reada
       - [DateTime](#datetime)
       - [Boolean](#boolean)
       - [Enumerize](#enumerize)
+      - [Enum](#enum)
       - [Custom Formatter](#custom-formatter)
     - [Common Options](#common-options)
       - [Default](#default)
@@ -83,7 +84,7 @@ Executing the `humanize` method, inside the class definition, will allow you to 
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.quantity = 20
 purchase.commission = 5.3
 ```
@@ -114,7 +115,7 @@ And the options to use with numeric types, are the same as in [NumberHelper](htt
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.expired_at = "04/06/1984 09:20:00"
 purchase.created_at = "04/06/1984 09:20:00"
 purchase.updated_at = "04/06/1984 09:20:00"
@@ -153,7 +154,7 @@ purchase.human_updated_at #=> "1984"
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.expired_at = "04/06/1984 09:20:00"
 purchase.created_at = "04/06/1984 09:20:00"
 purchase.updated_at = "04/06/1984 09:20:00"
@@ -192,7 +193,7 @@ purchase.human_updated_at #=> "1984"
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.paid = true
 ```
 
@@ -226,7 +227,7 @@ purchase.human_paid #=> "No"
 Installing [Enumerize](https://github.com/brainspec/enumerize) gem with...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.state = :finished
 ```
 
@@ -257,12 +258,92 @@ purchase.state = :finished
 purchase.human_state #=> "F."
 ```
 
+#### Enum
+
+Having...
+
+```ruby
+class Purchase < ActiveRecord::Base
+  enum payment_method: [:credit, :debit, :cash, :bitcoin]
+end
+```
+
+You can add
+```ruby
+class Purchase < ActiveRecord::Base
+  enum payment_method: [:credit, :debit, :cash, :bitcoin]
+  humanize :payment_method, enum: true
+end
+```
+
+And `/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  activerecord:
+   attributes:
+    purchase:
+      payment_method:
+        credit: "Credit Card"
+        debit: "Debit Card"
+        cash: "Cash"
+        bitcoin: "Bitcoin"
+```
+
+
+And then you can do...
+
+```ruby
+purchase = Purchase.new
+purchase.payment_method = :debit
+purchase.human_payment_method #=> "Debit Card"
+```
+
+If you want to use the same enum translations for multiple models, use this locales structure:
+
+`/your_app/config/locales/en.yml`
+
+```yaml
+en:
+  enum:
+    default:
+      payment_method:
+        credit: "Credit Card"
+        debit: "Debit Card"
+        cash: "Cash"
+        bitcoin: "Bitcoin"
+```
+
+and then in other models will also work:
+
+```ruby
+class Debt < ActiveRecord::Base
+  enum payment_method: [:credit, :debit, :cash, :bitcoin]
+  humanize :payment_method, enum: true
+end
+```
+
+```ruby
+purchase = Purchase.new
+purchase.payment_method = :debit
+
+debt = Debt.new
+debt.payment_method = :bitcoin
+
+purchase.human_payment_method #=> "Debit Card"
+debt.human_payment_method #=> "Bitcoin"
+```
+
+
+
+
+
 #### Custom Formatter
 
 With...
 
 ```ruby
-pruchase = Purchase.create!
+purchase = Purchase.create!
 ```
 
 And having...
@@ -288,7 +369,7 @@ The following options are available to use with all the formatters presented bef
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.amount = nil
 ```
 
@@ -313,7 +394,7 @@ Useful when you want to define multiple formatters for the same attribute.
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.paid = true
 purchase.amount = 20
 ```
@@ -339,7 +420,7 @@ purchase.amount_to_currency #=> "$20" # default suffix
 With...
 
 ```ruby
-pruchase = Purchase.new
+purchase = Purchase.new
 purchase.amount = 20
 ```
 
