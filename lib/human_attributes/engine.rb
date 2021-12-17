@@ -17,6 +17,7 @@ module HumanAttributes
       require_relative "./formatters/datetime"
       require_relative "./formatters/boolean"
       require_relative "./formatters/enumerize"
+      require_relative "./formatters/enum"
       require_relative "./formatters/custom"
       require_relative "./method_builder"
       require_relative "./extension"
