@@ -18,6 +18,12 @@ module HumanAttributes
       end
     end
 
+    class NotEnumAttribute < RuntimeError
+      def initialize
+        super("needs to be a Rails Enum")
+      end
+    end
+
     class MissingFormatterOption < RuntimeError
       def initialize
         super("custom type needs formatter option with a proc")
