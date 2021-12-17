@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2016_11_13_032308) do
-
+ActiveRecord::Schema.define(version: 2021_11_03_114830) do
   create_table "purchases", force: :cascade do |t|
     t.boolean "paid"
     t.decimal "commission"
@@ -22,6 +21,8 @@ ActiveRecord::Schema.define(version: 2016_11_13_032308) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "payment_method"
+    t.integer "shipping"
+    t.integer "store"
   end
-
 end
