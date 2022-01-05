@@ -33,3 +33,18 @@ en:
   boolean:
     positive: "Yes"
     negative: "No"
+  enum:
+    defaults:
+      shipping:
+          standard: "Standard"
+          express: "Express"
+  activerecord:
+   attributes:
+    purchase:
+      payment_method:
+        credit: "Credit Card"
+        debit: "Debit Card"
+        cash: "Cash"
+        bitcoin: "Bitcoin"
+    
+    

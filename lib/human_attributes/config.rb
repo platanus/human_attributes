@@ -1,74 +1,56 @@
 module HumanAttributes
   module Config
-    TYPES = [
-      {
-        name: :currency,
-        category: :numeric,
-        formatter: :number_to_currency,
-        suffix: :to_currency
-      },
-      {
-        name: :number,
-        category: :numeric,
-        formatter: :number_to_human,
-        suffix: :to_human
-      },
-      {
-        name: :size,
-        category: :numeric,
-        formatter: :number_to_human_size,
-        suffix: :to_human_size
-      },
-      {
-        name: :percentage,
-        category: :numeric,
-        formatter: :number_to_percentage,
-        suffix: :to_percentage
-      },
-      {
-        name: :phone,
-        category: :numeric,
-        formatter: :number_to_phone,
-        suffix: :to_phone
-      },
-      {
-        name: :delimiter,
-        category: :numeric,
-        formatter: :number_with_delimiter,
-        suffix: :with_delimiter
-      },
-      {
-        name: :precision,
-        category: :numeric,
-        formatter: :number_with_precision,
-        suffix: :with_precision
-      },
-      {
-        name: :date,
-        category: :date,
-        suffix: :to_human_date
-      },
-      {
-        name: :datetime,
-        category: :datetime,
-        suffix: :to_human_datetime
-      },
-      {
-        name: :boolean,
-        category: :boolean,
-        suffix: :to_human_boolean
-      },
-      {
-        name: :enumerize,
-        category: :enumerize,
-        suffix: :to_human_enum
-      },
-      {
-        name: :custom,
-        category: :custom,
-        suffix: :to_custom_value
+    def self.build_type(name, category, suffix, formatter = nil)
+      config_type = {
+        name: name,
+        category: category,
+        suffix: suffix
       }
-    ]
+      if formatter
+        config_type[:formatter] = formatter
+      end
+      config_type
+    end
+
+    TYPES = [
+      [:currency, :numeric, :to_currency, :number_to_currency],
+      [:number, :numeric, :to_human, :number_to_human],
+      [:size, :numeric, :to_human_size, :number_to_human_size],
+      [:percentage, :numeric, :to_percentage, :number_to_percentage],
+      [:phone, :numeric, :to_phone, :number_to_phone],
+      [:delimiter, :numeric, :with_delimiter, :number_with_delimiter],
+      [:precision, :numeric, :with_precision, :number_with_precision],
+      [:date, :date, :to_human_date],
+      [:datetime, :datetime, :to_human_datetime],
+      [:boolean, :boolean, :to_human_boolean],
+      [:enumerize, :enumerize, :to_human_enum],
+      [:enum, :enum, :to_human_enum],
+      [:custom, :custom, :to_custom_value]
+    ].map { |config_type| build_type(*config_type) }
+
+    OPTIONS = {
+      boolean: [
+        { boolean: true }
+      ],
+      date: [
+        { date: true },
+        { date: { format: :short, suffix: "to_short_date" } },
+        { date: { format: :short, suffix: "to_long_date" } },
+        { datetime: true },
+        { datetime: { format: :short, suffix: "to_short_datetime" } },
+        { datetime: { format: :short, suffix: "to_long_datetime" } }
+      ],
+      datetime: [
+        { datetime: true },
+        { datetime: { format: :short, suffix: "to_short_datetime" } },
+        { datetime: { format: :short, suffix: "to_long_datetime" } }
+      ],
+      decimal: [{ delimiter: true }],
+      enum: [{ enum: true }],
+      float: [{ delimiter: true }],
+      id: [{ custom: { formatter: ->(_o, value) { "#{_o.model_name.human}: ##{value}" } } }],
+      integer: [{ delimiter: true }]
+    }
 
     def category_by_type(type)
       type_config(type)[:category]

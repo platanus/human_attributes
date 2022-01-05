@@ -293,7 +293,50 @@ RSpec.describe "ActiveRecordExtension" do
       end
     end
 
-    context "with date and datetime formats" do
+    context "with Enum attributes" do
+      context "with attribute translation" do
+        before do
+          class Purchase < ApplicationRecord
+            humanize :payment_method, enum: true
+          end
+        end
+
+        it { expect(purchase.human_payment_method).to eq("Debit Card") }
+      end
+      context "with enum default translation" do
+        before do
+          class Purchase < ApplicationRecord
+            humanize :shipping, enum: true
+          end
+        end
+
+        it { expect(purchase.human_shipping).to eq("Express") }
+      end
+      context "without translation" do
+        before do
+          class Purchase < ApplicationRecord
+            humanize :store, enum: true
+          end
+        end
+
+        it { expect(purchase.human_store).to eq("online") }
+      end
+      context "with no enum value" do
+        before do
+          class Purchase < ApplicationRecord
+            humanize :quantity, enum: true
+          end
+        end
+
+        it do
+          expect { purchase.human_quantity }.to(
+            raise_error(HumanAttributes::Error::NotEnumAttribute)
+          )
+        end
+      end
+    end
+
+    context "with date and datetime format" do
       before { purchase.expired_at = "04/06/1984 09:20:00" }
       before { purchase.created_at = "04/06/1985 09:20:00" }
 
@@ -364,6 +407,9 @@ RSpec.describe "ActiveRecordExtension" do
       it { expect(purchase.human_amount).to eq("2,000,000.95") }
       it { expect(purchase.human_expired_at).to eq("Fri, 06 Apr 1984 09:00:00 +0000") }
       it { expect(purchase.expired_at_to_short_datetime).to eq("06 Apr 09:00") }
+      it { expect(purchase.human_payment_method).to eq("Debit Card") }
+      it { expect(purchase.human_shipping).to eq("Express") }
+      it { expect(purchase.human_store).to eq("online") }
       it { expect(purchase).to respond_to(:human_created_at) }
       it { expect(purchase).to respond_to(:created_at_to_short_datetime) }
       it { expect(purchase).to respond_to(:human_updated_at) }
