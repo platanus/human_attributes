@@ -7,8 +7,9 @@ module HumanAttributes
         is_enum_defined = _instance.class.defined_enums.has_key?(attribute.to_s)
         raise_error('NotEnumAttribute') unless is_enum_defined
         class_name = _instance.class.name.underscore
-        attr_key = "activerecord.attributes.#{class_name}.#{attribute}.#{value}"
-        enum_key = "enum.defaults.#{attribute}.#{value}"
+        pluralized_attribute = attribute.to_s.pluralize
+        attr_key = "activerecord.attributes.#{class_name}.#{pluralized_attribute}.#{value}"
+        enum_key = "enum.defaults.#{pluralized_attribute}.#{value}"
         translate(attr_key, translate(enum_key, value))
       end
 

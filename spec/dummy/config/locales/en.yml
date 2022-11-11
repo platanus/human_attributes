@@ -35,13 +35,13 @@ en:
     negative: "No"
   enum:
     defaults:
-      shipping:
+      shippings:
           standard: "Standard"
           express: "Express"
   activerecord:
    attributes:
     purchase:
-      payment_method:
+      payment_methods:
         credit: "Credit Card"
         debit: "Debit Card"
         cash: "Cash"
