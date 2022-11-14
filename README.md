@@ -283,7 +283,7 @@ en:
   activerecord:
    attributes:
     purchase:
-      payment_method:
+      payment_methods:
         credit: "Credit Card"
         debit: "Debit Card"
         cash: "Cash"
@@ -307,7 +307,7 @@ If you want to use the same enum translations for multiple models, use this loca
 en:
   enum:
     default:
-      payment_method:
+      payment_methods:
         credit: "Credit Card"
         debit: "Debit Card"
         cash: "Cash"
