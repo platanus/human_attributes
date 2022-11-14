@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 # 0.7.0
+
+##### Fixed
+
+* Fix enum translations: move translations under pluralized attribute key.
+# 0.7.0
 ##### Changed
 
 * Replace travis with circleci.
