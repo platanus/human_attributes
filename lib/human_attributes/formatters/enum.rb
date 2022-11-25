@@ -14,7 +14,7 @@ module HumanAttributes
       end
 
       def translate(key, default)
-        I18n.t(key,  { default: default })
+        I18n.t(key,  default: default)
       end
 
       def enum_defined?(_instance)
