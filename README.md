@@ -589,6 +589,12 @@ To run the specs you need to execute, **in the root path of the gem**, the follo
 bundle exec guard
 ```
 
+To run all the specs of the gem, **in the root path of the gem**, the following command:
+
+```bash
+bundle exec rspec
+```
+
 You need to put **all your tests** in the `/human_attributes/spec/dummy/spec/` directory.
 
 ## Publishing
