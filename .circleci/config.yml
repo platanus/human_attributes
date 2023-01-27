@@ -17,7 +17,7 @@ executors:
         default: "2.7"
         type: string
     docker:
-      - image: circleci/ruby:<<parameters.ruby-version>>-node
+      - image: cimg/ruby:<<parameters.ruby-version>>-node
         environment: *env-vars
 
 commands:
@@ -94,7 +94,7 @@ workflows:
       - test:
           matrix:
             parameters:
-              ruby-version: ["2.5", "2.6", "2.7"]
+              ruby-version: ["2.6", "2.7", "3.1" ]
       - deploy:
           context: org-global
           filters:
